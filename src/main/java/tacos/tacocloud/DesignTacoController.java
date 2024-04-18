@@ -3,6 +3,10 @@ package tacos.tacocloud;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
+import org.springframework.validation.Errors;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +20,13 @@ import tacos.tacocloud.Ingredient;
 import tacos.tacocloud.Ingredient.Type;
 import tacos.tacocloud.Taco;
 import tacos.tacocloud.TacoOrder;
+import org.springframework.web.bind.annotation.RequestBody;
 
-@Slf4j
+
+@Slf4j // для логирования
 @Controller
-@RequestMapping("/design")
-@SessionAttributes("tacoOrder")
+@RequestMapping("/design") // будет обрабатывать запросы, пути в которых начинаются с design
+@SessionAttributes("tacoOrder") // объект tacoOrder должен поддерживаться на уровне сеанса
 public class DesignTacoController {
 
 @ModelAttribute
@@ -43,22 +49,36 @@ public void addIngredientsToModel(Model model) {
 	  model.addAttribute(type.toString().toLowerCase(),
 	      filterByType(ingredients, type));
 	}
-  }
+}
 
-  @ModelAttribute(name = "tacoOrder")
-  public TacoOrder order() {
+@ModelAttribute(name = "tacoOrder")
+public TacoOrder order() {
     return new TacoOrder();
-  }
+}
 
-  @ModelAttribute(name = "taco")
-  public Taco taco() {
+@ModelAttribute(name = "taco")
+public Taco taco() {
     return new Taco();
-  }
+}
 
-  @GetMapping
-  public String showDesignForm() {
+@GetMapping
+public String showDesignForm() {
+    // возвращает имя представления для отображения модели в браузере
     return "design";
-  }
+}
+
+@PostMapping
+public String processTaco(@Valid Taco taco, Errors errors, @ModelAttribute TacoOrder tacoOrder) {
+	if (errors.hasErrors()) {
+		return "design";
+	}
+	
+    tacoOrder.addTaco(taco);
+    log.info("Processing taco: {}", taco);
+
+    return "redirect:/orders/current"; // перенаправление на другую страницу
+}
+  
 
   private Iterable<Ingredient> filterByType(
       List<Ingredient> ingredients, Type type) {

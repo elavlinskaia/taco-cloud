@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 // тест для HomeController (регистрирует класс в Spring MVC, 
 // чтобы можно было отправлять к нему запросы)
-@WebMvcTest(HomeController.class) 
+@WebMvcTest() 
 public class HomeControllerTest {
     
     @Autowired
