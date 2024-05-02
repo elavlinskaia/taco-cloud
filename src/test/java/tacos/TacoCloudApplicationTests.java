@@ -1,4 +1,4 @@
-package tacos.tacocloud;
+package tacos;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,10 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
  */
 
 @SpringBootTest // тест SpringBoot
-class TacoCloudApplicationTests {
+public class TacoCloudApplicationTests {
 
 	@Test // тестовый метод
-	void contextLoads() {
+	public void contextLoads() {
 	}
 
 }

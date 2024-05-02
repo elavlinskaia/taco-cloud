@@ -1,4 +1,4 @@
-package tacos.tacocloud;
+package tacos;
 
 import lombok.Data;
 
