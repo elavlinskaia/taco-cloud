@@ -1,13 +1,10 @@
 package tacos.data;
 
-import java.util.Optional;
 import tacos.Ingredient;
+import org.springframework.data.repository.CrudRepository;
 
-public interface IngredientRepository {
+// наследуемся от Spring Data CrudRepository<тип объекта, тип поля идентификатора объекта>
+// в нем сразу определены findAll, findById, save
+public interface IngredientRepository extends CrudRepository<Ingredient, String> {
 
-    Iterable<Ingredient> findAll();
-
-    Optional<Ingredient> findById(String id);
-
-    Ingredient save(Ingredient ingredient);
 }
